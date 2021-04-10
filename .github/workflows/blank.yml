@@ -46,4 +46,4 @@ jobs:
         
     - name: MakeFiles
       run : |
-        make=V99 -ji
+        make V=99 -j1
