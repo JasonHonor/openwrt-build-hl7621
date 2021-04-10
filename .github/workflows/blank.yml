@@ -43,6 +43,7 @@ jobs:
     - name: CopyDtsFiles
       run: |
         cp dts/*.* openwrt/target/linux/ramips/dts/
+        cp config/bk.config openwrt/.config -f
         
     - name: Initialization Environment
       env:
