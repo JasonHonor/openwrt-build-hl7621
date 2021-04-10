@@ -1,11 +1,3 @@
-#=================================================
-# https://github.com/P3TERX/Actions-OpenWrt
-# Description: Build OpenWrt using GitHub Actions
-# Lisence: MIT
-# Author: P3TERX
-# Blog: https://p3terx.com
-#=================================================
-
 name: Build Offical OpenWrt7621
 
 on:
@@ -26,7 +18,6 @@ env:
   REPO_URL: https://github.com/openwrt/openwrt
   REPO_BRANCH: master
   CONFIG_FILE: config/*.config
-  DIY_SH: scripts/offical-openwrt.sh
   FEEDS_CONF: feeds.conf.default
   SSH_ACTIONS: false
   KMODS_IN_FIRMWARE: false
