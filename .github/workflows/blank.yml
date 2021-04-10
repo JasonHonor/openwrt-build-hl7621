@@ -43,3 +43,7 @@ jobs:
     - name: CopyDtsFiles
       run: |
         cp dts/*.* openwrt/target/linux/ramips/dts/
+        
+    - name: MakeFiles
+      run : |
+        make=V99 -ji
