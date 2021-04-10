@@ -1,14 +1,7 @@
 name: Build Offical OpenWrt7621
 
 on:
-  repository_dispatch:
-  release:
-    types: published
-  push:
-    branches:
-      - master
-    paths:
-      - 'config/*.config'
+  workflow_dispatch:
 #  schedule:
 #    - cron: 0 8 * * 5
 #  watch:
