@@ -1,4 +1,4 @@
-name: Build Offical OpenWrt7621
+name: Build Offical OpenWrt7621 - 2
 
 on:
   workflow_dispatch:
