@@ -84,12 +84,12 @@ jobs:
         
     #- name: SSH connection to Actions
     #  uses: csexton/debugger-action@master
-    - name: CopyDtsFiles
-      run: |
-        cp dts/*.* openwrt/target/linux/ramips/dts/
-        cp config/bk.config openwrt/.config -f
-        sed -i 's/odhcpd-ipv6only //g' openwrt/include/target.mk
-        sed -i 's/odhcp6c //g' openwrt/include/target.mk
+    #- name: CopyDtsFiles
+    #  run: |
+    #    cp dts/*.* openwrt/target/linux/ramips/dts/
+    #    cp config/bk.config openwrt/.config -f
+    #    sed -i 's/odhcpd-ipv6only //g' openwrt/include/target.mk
+    #    sed -i 's/odhcp6c //g' openwrt/include/target.mk
         
     - name: Compile Packages
       id: compile
