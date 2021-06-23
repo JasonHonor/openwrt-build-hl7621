@@ -1,0 +1,93 @@
+
+name: Build Offical OpenWrt7621 Consol
+
+on:
+  workflow_dispatch:
+#  schedule:
+#    - cron: 0 8 * * 5
+#  watch:
+#    types: started
+
+env:
+  REPO_URL: https://github.com/openwrt/openwrt
+  REPO_BRANCH: master
+  CONFIG_FILE: config/*.config
+  FEEDS_CONF: feeds.conf.default
+  SSH_ACTIONS: false
+  KMODS_IN_FIRMWARE: false
+  UPLOAD_BIN_DIR: true
+  UPLOAD_FIRMWARE: true
+  UPLOAD_COWTRANSFER: true
+  UPLOAD_WETRANSFER: true
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    if: github.event.repository.owner.id == github.event.sender.id
+    
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Clone Source Code
+      run: |
+        export WSROOT=`pwd`
+        echo $WSROOT
+        ls
+        df -hT $PWD
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+    - name: CopyDtsFiles
+      run: |
+        cp dts/*.* openwrt/target/linux/ramips/dts/
+        cp config/bk.config openwrt/.config -f
+        sed -i 's/odhcpd-ipv6only //g' openwrt/include/target.mk
+        sed -i 's/odhcp6c //g' openwrt/include/target.mk
+        
+    - name: Initialization Environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      run: |
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-1804)
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
+        sudo timedatectl set-timezone "$TZ"
+        
+    #- name: MakeFiles
+    #  run : |
+    #    cd openwrt
+    #    make V=99 -j1
+    
+    - name: Update Feeds
+      run: |
+        cd openwrt
+        echo "::set-env name=OPENWRTROOT::$PWD"
+        sed -i 's/luci.git/luci.git\;openwrt-19.07/g' feeds.conf.default
+        ./scripts/feeds update -a
+        
+    - name: Install Feeds
+      run: |
+        cd $OPENWRTROOT
+        ./scripts/feeds install -a
+        
+    - name: Download Package
+      id: package
+      run: |
+        cd $OPENWRTROOT
+        if "$KMODS_IN_FIRMWARE" = 'true'
+        then
+            echo "CONFIG_ALL_KMODS=y" >> .config
+        fi
+        ## make defconfig
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+        
+    - name: SSH connection to Actions
+      uses: csexton/debugger-action@master
