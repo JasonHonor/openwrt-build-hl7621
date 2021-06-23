@@ -1,5 +1,5 @@
 
-name: Build Offical OpenWrt7621 Consol
+name: Build Console
 
 on:
   workflow_dispatch:
