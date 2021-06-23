@@ -70,6 +70,8 @@ jobs:
         echo "::set-env name=OPENWRTROOT::$PWD"
         sed -i 's/luci.git/luci.git\;openwrt-19.07/g' feeds.conf.default
         ./scripts/feeds update -a
+
+
         
     - name: Install Feeds
       run: |
@@ -89,8 +91,8 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
         
-    #- name: SSH connection to Actions
-    #  uses: csexton/debugger-action@master
+    - name: SSH connection to Actions
+      uses: csexton/debugger-action@master
         
     - name: Compile Packages
       id: compile
