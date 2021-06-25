@@ -82,8 +82,8 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
         
-    #- name: SSH connection to Actions
-    #  uses: csexton/debugger-action@master
+    - name: SSH connection to Actions
+      uses: csexton/debugger-action@master
     #- name: CopyDtsFiles
     #  run: |
     #    cp dts/*.* openwrt/target/linux/ramips/dts/
