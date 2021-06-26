@@ -39,11 +39,7 @@ jobs:
         ls
         df -hT $PWD
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
-        
-    #- name: CopyDtsFiles
-    #  run: |
-    #    cp config/witi.config openwrt/.config -f
-    
+           
     - name: Initialization Environment
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -62,6 +58,7 @@ jobs:
       run: |
         cd openwrt
         cp ../config/witi.config ./.config
+        ls .config -l
     
     #- name: MakeFiles
     #  run : |
