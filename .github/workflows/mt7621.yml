@@ -52,13 +52,13 @@ jobs:
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
     
-    #- name: SSH connection to Actions
-    #  uses: csexton/debugger-action@master
-    - name: CopyDtsFiles
-      run: |
-        cd openwrt
-        cp ../config/witi.config ./.config
-        ls .config -l
+    - name: SSH connection to Actions
+      uses: csexton/debugger-action@master
+    #- name: CopyDtsFiles
+    #  run: |
+    #    cd openwrt
+    #    cp ../config/witi.config ./.config
+    #    ls .config -l
     
     #- name: MakeFiles
     #  run : |
