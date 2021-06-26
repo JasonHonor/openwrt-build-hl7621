@@ -40,6 +40,10 @@ jobs:
         df -hT $PWD
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
         
+    - name: CopyDtsFiles
+      run: |
+        cp config/witi.config openwrt/.config -f
+    
     - name: Initialization Environment
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -52,8 +56,8 @@ jobs:
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
     
-    - name: SSH connection to Actions
-      uses: csexton/debugger-action@master
+    #- name: SSH connection to Actions
+    #  uses: csexton/debugger-action@master
     
     #- name: MakeFiles
     #  run : |
