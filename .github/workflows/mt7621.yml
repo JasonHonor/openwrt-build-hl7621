@@ -169,6 +169,13 @@ jobs:
         name: config.buildinfo
         path: openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/config.buildinfo
         
+    - name: Upload .Config
+      uses: actions/upload-artifact@master
+      if: steps.generate.outputs.status == 'success'
+      with:
+        name: .config
+        path: openwrt/.config
+        
     - name: Upload Packages-Server
       uses: actions/upload-artifact@master
       if: steps.generate.outputs.status == 'success'
