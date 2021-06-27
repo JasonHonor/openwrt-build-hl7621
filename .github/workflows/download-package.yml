@@ -1,5 +1,4 @@
-name: Build Offical OpenWrt7621 - 2
-
+name: DownloadPackage
 on:
   workflow_dispatch:
 #  schedule:
